@@ -1,0 +1,22 @@
+{% for text in texts %}
+    <div class="article">
+        <h3>{{ text.topic }}</h3>
+        <p>{{ text.generated_text }}</p>
+        
+        {% if current_user.id == text.user_id or current_user.role == 'admin' %}
+            <a href="{{ url_for('edit_article', text_id=text.id) }}">Edit</a>
+        {% endif %}
+        
+        {% if current_user.id == text.user_id and text.status == 'draft' %}
+            <form action="{{ url_for('send_to_admin', text_id=text.id) }}" method="post">
+                <button type="submit">Send to Admin</button>
+            </form>
+        {% endif %}
+        
+        {% if current_user.role == 'admin' and text.status == 'sent_to_admin' %}
+            <form action="{{ url_for('validate_article', text_id=text.id) }}" method="post">
+                <button type="submit">Validate Article</button>
+            </form>
+        {% endif %}
+    </div>
+{% endfor %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Text</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Edit Text</h1>
+        <a href="{{ url_for('index') }}">Back to Dashboard</a>
+    </header>
+
+    <div class="container">
+        <form method="POST">
+            <label for="new_text"><strong>Modify the generated text:</strong></label><br>
+            <textarea name="new_text" rows="8" required>{{ text.generated_text }}</textarea><br>
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Admin Dashboard</p>
+    </footer>
+</body>
+</html>

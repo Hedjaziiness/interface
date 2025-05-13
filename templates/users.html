@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>User Dashboard</h2>
+        <ul>
+            <li><a href="{{ url_for('profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('articles') }}">Articles</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Users Management</h1>
+        </header>
+
+        <section>
+            <h2>All Users</h2>
+            <div class="user-cards-container">
+                {% for user in users %}
+                <div class="user-card">
+                    <div class="user-info">
+                        <h3>{{ user.username }}</h3>
+                        <p><strong>Role:</strong> {{ user.role }}</p>
+                    </div>
+                    <div class="btn-group">
+                        <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn btn-edit">Edit</a>
+                        <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-delete">Delete</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+

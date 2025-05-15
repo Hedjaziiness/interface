@@ -1,35 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Articles</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>Articles</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="sidebar">
-        <h2>User Dashboard</h2>
-        <ul>
-            <li><a href="{{ url_for('profile') }}">Profile</a></li>
-            <li><a href="{{ url_for('articles') }}">Articles</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-        </ul>
-    </div>
+  <div class="sidebar">
+    <h2>User Dashboard</h2>
+    <ul>
+      <li><a href="{{ url_for('profile') }}">Profile</a></li>
+      <li><a href="{{ url_for('articles') }}">Articles</a></li>
+      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+  </div>
 
-    <div class="main-content">
-        <header>
-            <h1>Articles</h1>
-        </header>
+  <div class="main-content">
+    <header>
+      <h1>All Articles</h1>
+    </header>
 
-        <section>
-            <ul>
-                {% for text in texts %}
-                <li>
-                    <strong>{{ text.topic }}:</strong> {{ text.generated_text }}
-                    <a href="{{ url_for('edit_article', text_id=text.id) }}">Edit</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
-    </div>
+    <section>
+      {% if texts %}
+      <ul class="text-list">
+        {% for text in texts %}
+        <li>
+          <strong>{{ text.topic }}</strong><br>
+          {{ text.generated_text|truncate(200) }}…<br>
+          <a href="{{ url_for('show_article', article_id=text.id) }}">View &amp; Evaluate</a>
+          <a href="{{ url_for('edit_article', text_id=text.id) }}">Edit</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No articles have been generated yet.</p>
+      {% endif %}
+    </section>
+  </div>
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.content }}</p>
+
+    <h2>Évaluations</h2>
+    {% if evaluations %}
+        {% for eval in evaluations %}
+            <div>
+                <p>Note de style : {{ eval.style_rating }}/5</p>
+                <p>Note des critères : {{ eval.criteria_rating }}/5</p>
+                <p>Commentaire : {{ eval.comment }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucune évaluation pour cet article.</p>
+    {% endif %}
+</body>
+</html>

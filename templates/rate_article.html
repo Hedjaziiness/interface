@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Évaluer l'article : {{ article.topic }}</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.style.label }} {{ form.style() }}
+      {% for error in form.style.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.criteria.label }} {{ form.criteria() }}
+      {% for error in form.criteria.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.comment.label }} {{ form.comment() }}
+      {% for error in form.comment.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <button type="submit">Soumettre l'évaluation</button>
+  </form>
+{% endblock %}

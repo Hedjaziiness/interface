@@ -29,13 +29,14 @@
 
     <section id="dashboard">
         <h2><i class="fas fa-info-circle"></i> Aperçu</h2>
-        <p>Utilisez la barre latérale pour naviguer.</p>
+        <p>Articles générés: <strong>{{ texts_count }}</strong></p>
+        <p>Utilisateurs enregistrés: <strong>{{ users_count }}</strong></p>
     </section>
 
     <section id="articles">
         <h2><i class="fas fa-pen"></i> Articles</h2>
 
-        {% if current_user.role == 'admin' or current_user.role == 'expert' %}
+        {% if current_user.role in ['admin', 'expert'] %}
         <form action="{{ url_for('generate') }}" method="POST">
             <input type="text" name="topic" placeholder="Ex: Histoire de la Casbah d'Alger" required>
             <button type="submit" class="btn"><i class="fas fa-magic"></i> Générer</button>
@@ -50,9 +51,14 @@
                 <strong>{{ text.topic }}</strong><br>
                 {{ text.generated_text }}
                 <div class="btn-group">
+                    <a href="{{ url_for('article_detail', article_id=text.id) }}" class="btn btn-read">
+                        <i class="fas fa-book-open"></i> Lire
+                    </a>
                     {% if current_user.role == 'expert' %}
+                    <a href="{{ url_for('article_detail', article_id=article.id) }}">Lire</a>
+
                     <a href="{{ url_for('edit_text', id=text.id) }}" class="btn btn-edit"><i class="fas fa-edit"></i> Modifier</a>
-                    <a href="{{ url_for('evaluate_text', id=text.id) }}" class="btn btn-edit"><i class="fas fa-star-half-alt"></i> Evaluer</a>
+                    <a href="{{ url_for('evaluate_text', id=text.id) }}" class="btn btn-edit"><i class="fas fa-star-half-alt"></i> Évaluer</a>
                     <a href="{{ url_for('send_text', id=text.id) }}" class="btn btn-send"><i class="fas fa-paper-plane"></i> Envoyer</a>
                     {% elif current_user.role == 'admin' %}
                     <a href="{{ url_for('validate_text', id=text.id) }}" class="btn btn-send"><i class="fas fa-check-circle"></i> Valider</a>
@@ -62,7 +68,10 @@
             </li>
             {% endfor %}
         </ul>
+
         {% if current_user.role == 'admin' %}
+        <a href="{{ url_for('article_detail', article_id=article.id) }}">Lire</a>
+
         <form action="{{ url_for('export_pdf') }}" method="POST" style="margin-top: 20px;">
             <button type="submit" class="btn btn-edit"><i class="fas fa-file-pdf"></i> Exporter en PDF</button>
         </form>
@@ -90,3 +99,7 @@
 </script>
 </body>
 </html>
+
+
+
+

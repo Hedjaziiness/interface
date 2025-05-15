@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ article.topic }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>User Dashboard</h2>
+    <ul>
+      <li><a href="{{ url_for('profile') }}">Profile</a></li>
+      <li><a href="{{ url_for('articles') }}">Articles</a></li>
+      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h1>{{ article.topic }}</h1>
+    </header>
+
+    <section>
+      <p>{{ article.generated_text }}</p>
+    </section>
+
+    <section>
+      <h2>Évaluations</h2>
+
+      {% if evaluations %}
+        {% for eval in evaluations %}
+        <div class="evaluation-card">
+          <p><strong>Style:</strong> {{ eval.style_rating }}/5</p>
+          <p><strong>Critère:</strong> {{ eval.criteria_rating }}/5</p>
+          <p><strong>Commentaire:</strong> {{ eval.comment }}</p>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p>No evaluations yet for this article.</p>
+      {% endif %}
+    </section>
+
+    <section>
+      <h2>Ajouter une évaluation</h2>
+      <form method="POST" action="{{ url_for('add_evaluation', article_id=article.id) }}">
+        <label>
+          Note de style (1–5):
+          <input type="number" name="style_rating" min="1" max="5" required>
+        </label>
+        <label>
+          Note des critères (1–5):
+          <input type="number" name="criteria_rating" min="1" max="5" required>
+        </label>
+        <label>
+          Commentaire:
+          <textarea name="comment"></textarea>
+        </label>
+        <button type="submit">Soumettre l'évaluation</button>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
